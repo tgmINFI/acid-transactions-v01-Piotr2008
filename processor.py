@@ -31,7 +31,9 @@ class ShipmentProcessor:
 
         except sqlite3.IntegrityError as e:
             log_callback(f">> STEP 1 FAILED: {e}") 
-            # Hint: The code doesn't stop here! It continues to Step 2!
+            conn.rollback()
+            conn.close()
+            return
 
         try:
             # STEP 2: Log the Shipment
